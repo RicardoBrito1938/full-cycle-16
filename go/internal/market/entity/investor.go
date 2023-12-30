@@ -1,49 +1,48 @@
 package entity
 
 type Investor struct {
-	Id            string
+	ID            string
 	Name          string
-	AssetPosition []*InvestorPosition
+	AssetPosition []*InvestorAssetPosition
 }
 
-func NewInvestor(id, name string) *Investor {
+func NewInvestor(id string) *Investor {
 	return &Investor{
-		Id:            id,
-		AssetPosition: []*InvestorPosition{},
+		ID:            id,
+		AssetPosition: []*InvestorAssetPosition{},
 	}
 }
 
-func (i *Investor) AddAssetPosition(AssetPosition *InvestorPosition) {
-	i.AssetPosition = append(i.AssetPosition, AssetPosition)
+func (i *Investor) AddAssetPosition(assetPosition *InvestorAssetPosition) {
+	i.AssetPosition = append(i.AssetPosition, assetPosition)
 }
 
-func (i *Investor) GetAssetPosition(assetId string) *InvestorPosition {
-	for _, v := range i.AssetPosition {
-		if v.AssetID == assetId {
-			return v
+func (i *Investor) UpdateAssetPosition(assetID string, qtdShares int) {
+	assetPosition := i.GetAssetPosition(assetID)
+	if assetPosition == nil {
+		i.AssetPosition = append(i.AssetPosition, NewInvestorAssetPosition(assetID, qtdShares))
+	} else {
+		assetPosition.Shares += qtdShares
+	}
+}
+
+func (i *Investor) GetAssetPosition(assetID string) *InvestorAssetPosition {
+	for _, assetPosition := range i.AssetPosition {
+		if assetPosition.AssetID == assetID {
+			return assetPosition
 		}
 	}
 	return nil
 }
 
-func NewInvestorAssetPosition(assetId string, shares int) *InvestorPosition {
-	return &InvestorPosition{
-		AssetID: assetId,
-		Shares:  shares,
-	}
-}
-
-func (i *Investor) UpdateAssetPosition(assetId string, shares int) {
-	assetPosition := i.GetAssetPosition(assetId)
-	if assetPosition == nil {
-		i.AssetPosition = append(i.AssetPosition, NewInvestorAssetPosition(assetId, shares))
-	} else {
-		assetPosition.Shares += shares
-	}
-
-}
-
-type InvestorPosition struct {
+type InvestorAssetPosition struct {
 	AssetID string
 	Shares  int
+}
+
+func NewInvestorAssetPosition(assetID string, shares int) *InvestorAssetPosition {
+	return &InvestorAssetPosition{
+		AssetID: assetID,
+		Shares:  shares,
+	}
 }

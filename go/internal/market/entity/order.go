@@ -1,7 +1,7 @@
 package entity
 
 type Order struct {
-	Id            string
+	ID            string
 	Investor      *Investor
 	Asset         *Asset
 	Shares        int
@@ -12,9 +12,9 @@ type Order struct {
 	Transactions  []*Transaction
 }
 
-func NewOrder(id string, investor *Investor, asset *Asset, shares int, price float64, orderType string) *Order {
+func NewOrder(orderID string, investor *Investor, asset *Asset, shares int, price float64, orderType string) *Order {
 	return &Order{
-		Id:            id,
+		ID:            orderID,
 		Investor:      investor,
 		Asset:         asset,
 		Shares:        shares,

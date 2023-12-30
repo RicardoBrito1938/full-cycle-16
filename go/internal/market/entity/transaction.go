@@ -7,7 +7,7 @@ import (
 )
 
 type Transaction struct {
-	Id           string
+	ID           string
 	SellingOrder *Order
 	BuyingOrder  *Order
 	Shares       int
@@ -19,7 +19,7 @@ type Transaction struct {
 func NewTransaction(sellingOrder *Order, buyingOrder *Order, shares int, price float64) *Transaction {
 	total := float64(shares) * price
 	return &Transaction{
-		Id:           uuid.New().String(),
+		ID:           uuid.New().String(),
 		SellingOrder: sellingOrder,
 		BuyingOrder:  buyingOrder,
 		Shares:       shares,
